@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 import { LOADING, SUCCESS, ERROR } from '../../consts/phaseEnums';
-import { fetchChat, resetChat } from '../../redux/modules/chatDuck';
+import { fetchChat, resetChat, addMessage } from '../../redux/modules/chatDuck';
 
 import Messages from './Messages';
 
@@ -17,6 +17,7 @@ class ReduxChat extends Component {
 
     this.state = {
       name: props.routeParams.name || '',
+      newMessage: ''
     };
   }
 
@@ -43,6 +44,12 @@ class ReduxChat extends Component {
 
     this.props.fetchChat(name);
     this.props.push(`/reduxchat/${name}`);
+  }
+
+  handleAddMessage(event) {
+    event.preventDefault();
+    this.props.addMessage(this.state.newMessage);
+    this.setState({newMessage: ''});
   }
 
   render() {
@@ -91,7 +98,11 @@ class ReduxChat extends Component {
                   {chat.name === 'doge' &&
                     <img src="/assets/doge.jpg" alt="doge" />
                   }
-                  <Messages messages={chat.messages} />
+                  <Messages messages={chat.messages}/>
+                  <form onSubmit={(e) => this.handleAddMessage(e)}>
+                    <input value={this.state.newMessage}
+                           onChange={(event) => this.setState({newMessage: event.target.value})} />
+                  </form>
                 </div>
               </div>
             }
@@ -114,12 +125,15 @@ ReduxChat.propTypes = {
   chat: PropTypes.object.isRequired,  // eslint-disable-line react/forbid-prop-types
   push: PropTypes.func.isRequired,
   fetchChat: PropTypes.func.isRequired,
+  resetChat: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired,
 };
 
 const actions = {
   push,
   fetchChat,
-  resetChat
+  resetChat,
+  addMessage,
 };
 
 export default connect(state => ({

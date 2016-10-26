@@ -9,6 +9,7 @@ const FETCH = 'chat/FETCH';
 const FETCH_SUCCESS = 'chat/FETCH_SUCCESS';
 const FETCH_ERROR = 'chat/FETCH_ERROR';
 const RESET = 'chat/RESET';
+const ADD_MESSAGE = 'chat/ADD_MESSAGE';
 
 const InitialState = Record({
   name: null,
@@ -46,6 +47,10 @@ export default function chatReducer(state = new InitialState(), action) {
           .set('messages', List())
           .set('error', null);
 
+    case ADD_MESSAGE:
+      return state
+          .set('messages', state.messages.push(action.payload));
+
     default:
       return state;
   }
@@ -68,5 +73,7 @@ export const fetchChat = name => async (dispatch) => {
     });
   }
 };
+
+export const addMessage = message => (dispatch) =>  dispatch({ type: ADD_MESSAGE, payload: message});
 
 export const resetChat = () => (dispatch) => dispatch({ type: RESET });
