@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 import { LOADING, SUCCESS, ERROR } from '../../consts/phaseEnums';
-import { fetchChat } from '../../redux/modules/chatDuck';
+import { fetchChat, resetChat } from '../../redux/modules/chatDuck';
 
 import Messages from './Messages';
 
@@ -26,6 +26,10 @@ class ReduxChat extends Component {
     if (routeParams.name) {
       this.props.fetchChat(routeParams.name);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetChat();
   }
 
   handleChange(ev) {
@@ -115,6 +119,7 @@ ReduxChat.propTypes = {
 const actions = {
   push,
   fetchChat,
+  resetChat
 };
 
 export default connect(state => ({

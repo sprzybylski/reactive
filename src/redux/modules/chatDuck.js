@@ -8,6 +8,7 @@ import * as api from '../../apis/chatApi';
 const FETCH = 'chat/FETCH';
 const FETCH_SUCCESS = 'chat/FETCH_SUCCESS';
 const FETCH_ERROR = 'chat/FETCH_ERROR';
+const RESET = 'chat/RESET';
 
 const InitialState = Record({
   name: null,
@@ -38,6 +39,13 @@ export default function chatReducer(state = new InitialState(), action) {
         .set('phase', ERROR)
         .set('error', action.payload.error);
 
+    case RESET:
+      return state
+          .set('phase', INIT)
+          .set('name', null)
+          .set('messages', List())
+          .set('error', null);
+
     default:
       return state;
   }
@@ -60,3 +68,5 @@ export const fetchChat = name => async (dispatch) => {
     });
   }
 };
+
+export const resetChat = () => (dispatch) => dispatch({ type: RESET });
