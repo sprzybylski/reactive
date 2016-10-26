@@ -79,7 +79,9 @@ export const fetchChat = name => async (dispatch) => {
   }
 };
 
-export const addMessage = message => (dispatch) =>  dispatch({ type: ADD_MESSAGE, payload: message});
-export const deleteMessage = index => (dispatch) =>  dispatch({ type: DEL_MESSAGE, payload: index});
+export const addMessage = message => dispatch =>
+    dispatch({ type: ADD_MESSAGE, payload: message });
+export const deleteMessage = index => dispatch =>
+    dispatch({ type: DEL_MESSAGE, payload: index });
 
 export const resetChat = () => ({ type: RESET });
