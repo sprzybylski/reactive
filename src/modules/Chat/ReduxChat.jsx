@@ -14,6 +14,7 @@ class ReduxChat extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAddMessage = this.handleAddMessage.bind(this);
 
     this.state = {
       name: props.routeParams.name || '',
@@ -39,7 +40,8 @@ class ReduxChat extends Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
     const { name } = this.state;
 
     this.props.fetchChat(name);
@@ -64,7 +66,7 @@ class ReduxChat extends Component {
           </div>
 
           <div className="col-lg-6">
-            <div className="input-group">
+            <form onSubmit={this.handleSubmit} className="input-group">
               <input
                 type="text"
                 onChange={this.handleChange}
@@ -79,7 +81,7 @@ class ReduxChat extends Component {
                   Go!
                 </button>
               </span>
-            </div>
+            </form>
           </div>
         </div>
 
@@ -99,7 +101,7 @@ class ReduxChat extends Component {
                     <img src="/assets/doge.jpg" alt="doge" />
                   }
                   <Messages messages={chat.messages} deleteMessage={this.props.deleteMessage}/>
-                  <form onSubmit={(e) => this.handleAddMessage(e)}>
+                  <form onSubmit={this.handleAddMessage}>
                     <input value={this.state.newMessage}
                            onChange={(event) => this.setState({newMessage: event.target.value})} />
                   </form>
