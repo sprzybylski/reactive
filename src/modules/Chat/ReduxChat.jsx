@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 import { LOADING, SUCCESS, ERROR } from '../../consts/phaseEnums';
-import { fetchChat, resetChat, addMessage } from '../../redux/modules/chatDuck';
+import { fetchChat, resetChat, addMessage, deleteMessage } from '../../redux/modules/chatDuck';
 
 import Messages from './Messages';
 
@@ -98,7 +98,7 @@ class ReduxChat extends Component {
                   {chat.name === 'doge' &&
                     <img src="/assets/doge.jpg" alt="doge" />
                   }
-                  <Messages messages={chat.messages}/>
+                  <Messages messages={chat.messages} deleteMessage={this.props.deleteMessage}/>
                   <form onSubmit={(e) => this.handleAddMessage(e)}>
                     <input value={this.state.newMessage}
                            onChange={(event) => this.setState({newMessage: event.target.value})} />
@@ -127,6 +127,7 @@ ReduxChat.propTypes = {
   fetchChat: PropTypes.func.isRequired,
   resetChat: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
+  deleteMessage: PropTypes.func.isRequired,
 };
 
 const actions = {
@@ -134,6 +135,7 @@ const actions = {
   fetchChat,
   resetChat,
   addMessage,
+  deleteMessage,
 };
 
 export default connect(state => ({

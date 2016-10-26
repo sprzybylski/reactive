@@ -10,6 +10,7 @@ const FETCH_SUCCESS = 'chat/FETCH_SUCCESS';
 const FETCH_ERROR = 'chat/FETCH_ERROR';
 const RESET = 'chat/RESET';
 const ADD_MESSAGE = 'chat/ADD_MESSAGE';
+const DEL_MESSAGE = 'chat/DEL_MESSAGE';
 
 const InitialState = Record({
   name: null,
@@ -51,6 +52,10 @@ export default function chatReducer(state = new InitialState(), action) {
       return state
           .set('messages', state.messages.push(action.payload));
 
+    case DEL_MESSAGE:
+      return state
+          .set('messages', state.messages.delete(action.payload));
+
     default:
       return state;
   }
@@ -75,5 +80,6 @@ export const fetchChat = name => async (dispatch) => {
 };
 
 export const addMessage = message => (dispatch) =>  dispatch({ type: ADD_MESSAGE, payload: message});
+export const deleteMessage = index => (dispatch) =>  dispatch({ type: DEL_MESSAGE, payload: index});
 
-export const resetChat = () => (dispatch) => dispatch({ type: RESET });
+export const resetChat = () => ({ type: RESET });
